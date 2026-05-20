@@ -22,16 +22,28 @@ export default function Hero() {
             PARTY LAUNCH · LIVE SINCE YESTERDAY
           </div>
 
-          <motion.h1 
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-[clamp(58px,9.5vw,138px)] font-display leading-[0.86] tracking-[-0.015em] text-[#1A1108] mb-7 uppercase"
-          >
-            Voice of the<br />
-            <span className="text-[#B84915]">Lazy</span> &<br />
-            <em className="text-[#1F5A2E] font-serif italic font-normal tracking-[-0.02em] capitalize">Unemployed.</em>
-          </motion.h1>
+          <div className="relative inline-block">
+            <motion.h1 
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="text-[clamp(58px,9.5vw,138px)] font-display leading-[0.86] tracking-[-0.015em] text-[#1A1108] mb-7 uppercase relative z-10"
+            >
+              Voice of the<br />
+              <span className="text-[#B84915]">Lazy</span> &<br />
+              <em className="text-[#1F5A2E] font-serif italic font-normal tracking-[-0.02em] capitalize">Unemployed.</em>
+            </motion.h1>
+            
+            {/* Gamusa Image */}
+            <div className="absolute -right-[20px] sm:-right-[40px] lg:-right-[80px] -top-[40px] sm:-top-[60px] lg:-top-[80px] w-[100px] sm:w-[140px] lg:w-[220px] z-20 drop-shadow-xl transform rotate-[15deg] pointer-events-none">
+              <img 
+                src="https://i.ibb.co/N6jdPdfN/gamusa.png"
+                alt="Assamese Gamusa"
+                className="w-full h-auto"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
 
           <motion.div 
             initial={{ opacity: 0 }}
@@ -88,16 +100,6 @@ export default function Hero() {
           transition={{ delay: 0.2, duration: 0.8, type: "spring", stiffness: 50 }}
           className="relative mt-8 lg:mt-0"
         >
-          {/* Gamusa Image - Outside overflow-hidden */}
-          <div className="absolute -top-6 -right-6 sm:-top-8 sm:-right-8 lg:-top-12 lg:-right-8 w-[100px] sm:w-[140px] lg:w-[160px] z-30 drop-shadow-xl transform rotate-[-8deg] pointer-events-none">
-            <img 
-              src="https://i.ibb.co/N6jdPdfN/gamusa.png"
-              alt="Assamese Gamusa"
-              className="w-full h-auto"
-              referrerPolicy="no-referrer"
-            />
-          </div>
-
           <div className="bg-[#EADFC4] border-[3px] border-[#1A1108] shadow-[8px_8px_0_#1A1108,8px_8px_0_4px_#B84915] lg:shadow-[12px_12px_0_#1A1108,12px_12px_0_4px_#B84915] transform rotate-[1.5deg] relative overflow-hidden z-10 w-full">
             
             <img 

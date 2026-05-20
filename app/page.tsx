@@ -6,6 +6,8 @@ import Manifesto from '@/components/Manifesto';
 import Eligibility from '@/components/Eligibility';
 import RegistrationForm from '@/components/RegistrationForm';
 import Footer from '@/components/Footer';
+import CreatorSupport from '@/components/CreatorSupport';
+import Gallery from '@/components/Gallery';
 
 export default function Page() {
   return (
@@ -14,10 +16,16 @@ export default function Page() {
       <Navbar />
       <main className="flex-1 overflow-hidden">
         <Hero />
-        <Vision />
-        <Manifesto />
-        <Eligibility />
-        <RegistrationForm />
+        <div id="about">
+          <Vision />
+          <Manifesto />
+        </div>
+        <CreatorSupport />
+        <Gallery />
+        <div id="join">
+          <Eligibility />
+          <RegistrationForm />
+        </div>
       </main>
       <Footer />
     </>

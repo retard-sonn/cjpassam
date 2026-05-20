@@ -1,12 +1,35 @@
 "use client";
 
-import { useState, useRef } from "react";
-import html2canvas from "html2canvas";
+import { useState, useRef, useEffect } from "react";
+import * as htmlToImage from "html-to-image";
 
 export default function RegistrationForm() {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: "", district: "" });
+  const [stats, setStats] = useState({ visitors: 0, members: 0 });
   const certificateRef = useRef<HTMLDivElement>(null);
+  const hasVisitedRef = useRef(false);
+
+  useEffect(() => {
+    // Record visit and fetch initial stats
+    if (!hasVisitedRef.current) {
+      hasVisitedRef.current = true;
+      fetch('/api/stats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'visit' })
+      })
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(console.error);
+    } else {
+      // Just fetch latest if re-rendering without visit increment
+      fetch('/api/stats')
+        .then(res => res.json())
+        .then(data => setStats(data))
+        .catch(console.error);
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,19 +41,35 @@ export default function RegistrationForm() {
       name: target.name.value,
       district: target.district.value,
     });
+    
+    // Increment member count
+    fetch('/api/stats', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'register' })
+    })
+    .then(res => res.json())
+    .then(data => setStats(data))
+    .catch(console.error);
+
     setTimeout(() => {
       setSubmitted(true);
     }, 1000);
   };
 
-  const downloadCertificate = async () => {
+
+  const downloadCertificate = () => {
     if (certificateRef.current) {
-      const canvas = await html2canvas(certificateRef.current, { scale: 2 });
-      const dataUrl = canvas.toDataURL("image/png");
-      const link = document.createElement("a");
-      link.download = `CJP_Membership_${formData.name.replace(/\s+/g, "_")}.png`;
-      link.href = dataUrl;
-      link.click();
+      htmlToImage.toPng(certificateRef.current, { quality: 0.95, pixelRatio: 2 })
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          link.download = `CJP_Membership_${formData.name.replace(/\s+/g, "_")}.png`;
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((err) => {
+          console.error("Failed to generate certificate", err);
+        });
     }
   };
 
@@ -52,26 +91,39 @@ export default function RegistrationForm() {
           </p>
 
           <ul className="list-none mt-10 flex flex-col gap-[18px]">
-            <li className="grid grid-cols-[110px_1fr] gap-6 pb-4 border-b border-[#1A1108]/15 items-baseline">
+            <li className="grid grid-cols-[110px_1fr] gap-4 pb-4 border-b border-[#1A1108]/15 items-baseline">
               <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[#6A5440]">Email</span>
-              <span className="font-sans text-[16px] text-[#1A1108] font-medium break-words">contact@cockroachjantaparty.org</span>
+              <span className="font-sans text-[15px] sm:text-[16px] text-[#1A1108] font-medium break-words md:break-normal w-full overflow-wrap-anywhere">contact@cockroachjantaparty.org</span>
             </li>
-            <li className="grid grid-cols-[110px_1fr] gap-6 pb-4 border-b border-[#1A1108]/15 items-baseline">
+            <li className="grid grid-cols-[110px_1fr] gap-4 pb-4 border-b border-[#1A1108]/15 items-baseline">
               <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[#6A5440]">Press</span>
-              <span className="font-sans text-[16px] text-[#1A1108] font-medium break-words">contact@cockroachjantaparty.org</span>
+              <span className="font-sans text-[15px] sm:text-[16px] text-[#1A1108] font-medium break-words md:break-normal w-full overflow-wrap-anywhere">contact@cockroachjantaparty.org</span>
             </li>
-            <li className="grid grid-cols-[110px_1fr] gap-6 pb-4 border-b border-[#1A1108]/15 items-baseline">
+            <li className="grid grid-cols-[110px_1fr] gap-4 pb-4 border-b border-[#1A1108]/15 items-baseline">
               <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[#6A5440]">Headquarters</span>
-              <span className="font-sans text-[16px] text-[#1A1108] font-medium">Wherever the wifi works (in Assam).</span>
+              <span className="font-sans text-[15px] sm:text-[16px] text-[#1A1108] font-medium">Wherever the wifi works (in Assam).</span>
             </li>
-            <li className="grid grid-cols-[110px_1fr] gap-6 items-baseline">
+            <li className="grid grid-cols-[110px_1fr] gap-4 items-baseline">
               <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[#6A5440]">Founder</span>
-              <span className="font-sans text-[16px] text-[#1A1108] font-medium flex flex-col gap-1">
+              <span className="font-sans text-[15px] sm:text-[16px] text-[#1A1108] font-medium flex flex-col gap-1">
                 Abhijeet Dipke
                 <span className="font-mono text-[10.5px] tracking-[0.2em] uppercase text-[#6A5440] font-normal">FOUNDER & CONVENOR</span>
               </span>
             </li>
           </ul>
+
+          {/* Live Stats */}
+          <div className="mt-12 p-5 border-2 border-[#1A1108] bg-[#EADFC4] shadow-[4px_4px_0_#1A1108] max-w-sm">
+            <h4 className="font-mono text-[10px] tracking-widest text-[#B84915] uppercase font-bold mb-4">Live Movement Stats</h4>
+            <div className="flex justify-between items-center border-b border-[#1A1108]/20 pb-3 mb-3">
+              <span className="font-sans text-[14px] text-[#3A2A1C]">Total Site Visitors</span>
+              <span className="font-mono text-[16px] text-[#1A1108] font-bold">{stats.visitors.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="font-sans text-[14px] text-[#3A2A1C]">Members Registered</span>
+              <span className="font-mono text-[16px] text-[#B84915] font-bold">{stats.members.toLocaleString()}</span>
+            </div>
+          </div>
         </div>
 
         {/* Right Column: Embedded form aesthetic */}
@@ -90,38 +142,55 @@ export default function RegistrationForm() {
               </div>
 
               {/* Hidden Certificate for Generation */}
-              <div className="hidden lg:block absolute pointer-events-none opacity-0 left-[-9999px]" aria-hidden="true">
-                <div ref={certificateRef} className="w-[800px] h-[600px] bg-[#F4EBD7] p-10 flex flex-col items-center justify-center relative border-[12px] border-[#1F5A2E] bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
-                  <div className="absolute top-0 right-0 w-32 h-32 opacity-20 transform rotate-[-15deg] pointer-events-none"></div>
+              <div className="absolute pointer-events-none opacity-[0.01] z-[-100] left-[-9999px] top-0" aria-hidden="true">
+                <div ref={certificateRef} className="w-[800px] h-[600px] bg-[#F4EBD7] p-10 flex flex-col pt-14 items-center relative border-[14px] border-[#1A1108] bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] shadow-inner overflow-hidden">
                   
-                  <div className="text-6xl mb-4">🪳</div>
+                  {/* Background Accents */}
+                  <div className="absolute top-0 right-0 w-64 h-64 opacity-10 bg-[radial-gradient(circle,#B84915_2px,transparent_2px)] [background-size:16px_16px] transform rotate-12 pointer-events-none"></div>
+                  <div className="absolute bottom-0 left-0 w-64 h-64 opacity-10 bg-[radial-gradient(circle,#1F5A2E_2px,transparent_2px)] [background-size:16px_16px] pointer-events-none"></div>
+
+                  <div className="absolute left-6 top-6 bottom-6 w-[120px] z-10 opacity-90 border-r-4 border-dashed border-[#1A1108]/20 flex items-center pr-2">
+                     <img src="https://i.ibb.co/N6jdPdfN/gamusa.png" alt="" className="w-full h-full object-cover" crossOrigin="anonymous"/>
+                  </div>
                   
-                  <h1 className="font-display text-[48px] text-[#1A1108] text-center uppercase tracking-normal mb-8 leading-[1.1]">
-                    Certificate of<br />Membership
-                  </h1>
-                  
-                  <p className="font-condensed text-[16px] text-[#6A5440] uppercase tracking-[0.3em] mb-4">
-                    This certifies that
-                  </p>
-                  
-                  <p className="font-sans text-[42px] font-bold text-[#B84915] text-center uppercase border-b-2 border-[#1A1108]/30 inline-block px-12 pb-2 mb-6 min-w-[400px]">
-                    {formData.name}
-                  </p>
-                  
-                  <p className="font-sans text-[18px] text-[#3A2A1C] text-center max-w-[600px] leading-relaxed mb-8">
-                    has officially joined the <strong className="font-bold">Cockroach Janta Party - Assam Wing</strong>. They are now officially part of the lazy, chronically online, and proudly resilient swarm representing <strong>{formData.district}</strong>.
-                  </p>
-                  
-                  <div className="w-full flex justify-between items-end mt-4 px-12">
-                    <div className="text-center">
-                      <div className="border-b-[3px] border-[#1A1108] w-[200px] mb-2 font-display text-[22px] text-[#1A1108] pb-1" style={{fontFamily: "'Nanum Pen Script', 'Caveat', cursive", fontSize: "36px"}}>A. Dipke</div>
-                      <p className="font-mono text-[11px] text-[#6A5440] tracking-[0.2em] uppercase">Founder & Convenor</p>
-                    </div>
+                  <div className="pl-32 flex flex-col items-center w-full relative z-20 h-full">
+                    <div className="text-5xl mb-2">🪳</div>
                     
-                    <div className="w-[100px] h-[100px] border-[3px] border-[#B84915] rounded-full flex flex-col justify-center items-center p-2 transform rotate-12 relative">
-                       <span className="font-display text-[16px] text-[#B84915] text-center uppercase leading-none mt-2">Certified</span>
-                       <span className="font-display text-[13px] text-[#B84915] tracking-[0.1em] mt-1">2026</span>
-                       <div className="absolute inset-0 border-[1px] border-dashed border-[#B84915] rounded-full m-1 pointer-events-none"></div>
+                    <h1 className="font-display text-[48px] text-[#1A1108] text-center uppercase tracking-wide mb-1 leading-none">
+                      Official Membership
+                    </h1>
+                    <p className="font-sans text-[20px] text-[#B84915] font-bold tracking-widest uppercase mb-8 leading-none">
+                      যোগ্যতা প্ৰমাণপত্ৰ
+                    </p>
+                    
+                    <p className="font-mono text-[12px] text-[#6A5440] uppercase tracking-[0.3em] mt-2 mb-4 bg-[#1A1108]/5 px-4 py-1 rounded-full border border-[#1A1108]/10">
+                      This lazily certifies that
+                    </p>
+                    
+                    <p className="font-serif italic font-bold text-[56px] text-[#1A1108] text-center capitalize border-b-2 border-[#B84915] inline-block px-12 pb-2 mb-8 min-w-[400px] leading-none">
+                      {formData.name}
+                    </p>
+                    
+                    <p className="font-sans text-[18px] text-[#3A2A1C] text-center max-w-[500px] leading-relaxed mb-6 font-medium">
+                      has officially joined the <strong className="font-bold text-[#1A1108]">Cockroach Janta Party</strong>. 
+                      They are now a validated, chronically online constituent of the proudly resilient swarm from <strong className="text-[#B84915]">{formData.district}</strong>.
+                    </p>
+                    
+                    <p className="font-sans text-[15px] text-[#1F5A2E] text-center font-bold mb-auto">
+                      এই প্ৰমাণপত্ৰৰ জৰিয়তে আপোনাক আনুষ্ঠানিকভাৱে জেদী জাকত অন্তৰ্ভুক্ত কৰা হ’ল।
+                    </p>
+                    
+                    <div className="w-full flex justify-between items-end mt-4 px-8 pb-4">
+                      <div className="text-center">
+                        <div className="border-b-2 border-[#1A1108] w-[200px] mb-2 font-display text-[26px] text-[#1A1108] pb-1 transform -rotate-2" style={{fontFamily: "cursive", fontSize: "32px"}}>A. Dipke</div>
+                        <p className="font-mono text-[9px] text-[#6A5440] tracking-[0.2em] uppercase font-bold">Founder & Convenor</p>
+                      </div>
+                      
+                      <div className="w-[110px] h-[110px] border-[3px] border-[#B84915] rounded-full flex flex-col justify-center items-center p-2 transform -rotate-[15deg] relative bg-[#F4EBD7] shadow-[2px_2px_0_#1A1108]">
+                         <span className="font-display text-[15px] text-[#B84915] text-center uppercase leading-[1.1] mt-2 font-bold tracking-wider">OFFICIAL<br/>MEMBER</span>
+                         <span className="font-mono text-[9px] text-[#1A1108] tracking-[0.1em] mt-1 font-bold">CJP ASSAM</span>
+                         <div className="absolute inset-0 border-[1px] border-dashed border-[#B84915] rounded-full m-1.5 pointer-events-none"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -143,14 +212,43 @@ export default function RegistrationForm() {
 
                  <label className="flex flex-col gap-2">
                    <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[#3A2A1C]">District in Assam *</span>
-                   <select name="district" required className="bg-[#F4EBD7] border-2 border-[#1A1108] p-[12px_14px] font-sans text-[15px] text-[#1A1108] outline-none transition-all focus:border-[#B84915] focus:shadow-[3px_3px_0_#B84915] appearance-none">
+                   <select name="district" required className="bg-[#F4EBD7] border-2 border-[#1A1108] p-[12px_14px] font-sans text-[15px] text-[#1A1108] outline-none transition-all focus:border-[#B84915] focus:shadow-[3px_3px_0_#B84915] appearance-none max-w-full">
                      <option value="">Choose your district</option>
-                     <option value="Kamrup Metropolitan">Kamrup Metropolitan (Guwahati)</option>
-                     <option value="Jorhat">Jorhat</option>
+                     <option value="Bajali">Bajali</option>
+                     <option value="Baksa">Baksa</option>
+                     <option value="Barpeta">Barpeta</option>
+                     <option value="Biswanath">Biswanath</option>
+                     <option value="Bongaigaon">Bongaigaon</option>
+                     <option value="Cachar">Cachar</option>
+                     <option value="Charaideo">Charaideo</option>
+                     <option value="Chirang">Chirang</option>
+                     <option value="Darrang">Darrang</option>
+                     <option value="Dhemaji">Dhemaji</option>
+                     <option value="Dhubri">Dhubri</option>
                      <option value="Dibrugarh">Dibrugarh</option>
-                     <option value="Cachar">Cachar (Silchar)</option>
+                     <option value="Dima Hasao">Dima Hasao</option>
+                     <option value="Goalpara">Goalpara</option>
+                     <option value="Golaghat">Golaghat</option>
+                     <option value="Hailakandi">Hailakandi</option>
+                     <option value="Hojai">Hojai</option>
+                     <option value="Jorhat">Jorhat</option>
+                     <option value="Kamrup Metropolitan">Kamrup Metropolitan</option>
+                     <option value="Kamrup">Kamrup</option>
+                     <option value="Karbi Anglong">Karbi Anglong</option>
+                     <option value="Karimganj">Karimganj</option>
+                     <option value="Kokrajhar">Kokrajhar</option>
+                     <option value="Lakhimpur">Lakhimpur</option>
+                     <option value="Majuli">Majuli</option>
+                     <option value="Morigaon">Morigaon</option>
                      <option value="Nagaon">Nagaon</option>
+                     <option value="Nalbari">Nalbari</option>
+                     <option value="Sivasagar">Sivasagar</option>
+                     <option value="Sonitpur">Sonitpur</option>
+                     <option value="South Salmara-Mankachar">South Salmara-Mankachar</option>
+                     <option value="Tamulpur">Tamulpur</option>
                      <option value="Tinsukia">Tinsukia</option>
+                     <option value="Udalguri">Udalguri</option>
+                     <option value="West Karbi Anglong">West Karbi Anglong</option>
                      <option value="Other">Other / NRI</option>
                    </select>
                  </label>

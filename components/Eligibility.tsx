@@ -55,29 +55,31 @@ export default function Eligibility() {
           {criteria.map((item, i) => (
             <li 
               key={i} 
-              className="checklist-item grid grid-cols-[1fr_50px] sm:grid-cols-[140px_1fr_64px] gap-y-1 gap-x-4 sm:gap-x-7 items-center p-[18px_20px] sm:p-[22px_28px] bg-[#EADFC4] border-2 border-[#1A1108] shadow-[5px_5px_0_#1A1108] transition-all duration-200 cursor-default hover:bg-[#DBCBA5] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[7px_7px_0_#1A1108] group"
+              className="flex flex-col lg:grid lg:grid-cols-[140px_1fr_64px] gap-y-3 gap-x-4 lg:gap-x-7 items-start lg:items-center p-[20px] sm:p-[24px_32px] bg-[#EADFC4] border-2 border-[#1A1108] shadow-[5px_5px_0_#1A1108] transition-all duration-200 cursor-default hover:bg-[#DBCBA5] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[7px_7px_0_#1A1108] group relative"
             >
-              <span className="font-mono text-[11px] tracking-[0.22em] font-semibold text-[#B84915] sm:[grid-area:num] mb-1 sm:mb-0">
+              <div className="absolute top-[20px] right-[20px] lg:relative lg:top-0 lg:right-0 w-[40px] h-[40px] sm:w-[48px] sm:h-[48px] border-2 border-[#1A1108] rounded-full flex items-center justify-center text-[18px] sm:text-[22px] text-[#1F5A2E] bg-[#F4EBD7] transition-all duration-200 group-hover:bg-[#1F5A2E] group-hover:text-[#F4EBD7] lg:ml-auto lg:order-3">
+                ✓
+              </div>
+              <span className="font-mono text-[11px] tracking-[0.22em] font-semibold text-[#B84915] lg:order-1 mt-1 lg:mt-0">
                 {item.id}
               </span>
-              <div className="flex flex-col sm:[grid-area:title] mb-1 sm:mb-0">
-                <span className="font-display text-[22px] sm:text-[28px] text-[#1A1108] tracking-[-0.005em] leading-none mb-1">
-                  {item.title}
-                </span>
-                <span className="font-sans text-[14.5px] text-[#6A5440] font-medium leading-none">
-                  {item.titleAs}
-                </span>
-              </div>
-              <div className="flex flex-col gap-1 sm:gap-0 sm:[grid-area:sub] mt-1.5 pt-1.5 border-t border-[#1A1108]/10 sm:border-t-0 sm:pt-0 sm:mt-0">
-                <span className="font-sans text-[14.5px] italic text-[#3A2A1C]">
-                  {item.desc}
-                </span>
-                <span className="font-sans text-[13.5px] text-[#6A5440]">
-                  {item.descAs}
-                </span>
-              </div>
-              <div className="w-[48px] h-[48px] border-2 border-[#1A1108] rounded-full grid place-items-center text-[22px] text-[#1F5A2E] bg-[#F4EBD7] transition-all duration-200 group-hover:bg-[#1F5A2E] group-hover:text-[#F4EBD7] ml-auto sm:[grid-area:tick]">
-                ✓
+              <div className="flex flex-col lg:order-2 pr-[48px] lg:pr-0 w-full">
+                <div className="flex flex-col mb-3 lg:mb-2">
+                  <span className="font-display text-[22px] sm:text-[28px] text-[#1A1108] tracking-[-0.005em] leading-[1.1] mb-1">
+                    {item.title}
+                  </span>
+                  <span className="font-sans text-[14.5px] text-[#6A5440] font-medium leading-none">
+                    {item.titleAs}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1.5 pt-3 lg:pt-3 border-t border-[#1A1108]/15">
+                  <span className="font-sans text-[14.5px] italic text-[#3A2A1C] leading-[1.4]">
+                    {item.desc}
+                  </span>
+                  <span className="font-sans text-[13.5px] text-[#6A5440] leading-[1.4]">
+                    {item.descAs}
+                  </span>
+                </div>
               </div>
             </li>
           ))}
