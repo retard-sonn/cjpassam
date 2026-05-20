@@ -50,7 +50,7 @@ export default function Footer() {
             <h4 className="font-mono text-[11px] tracking-[0.22em] uppercase text-[#F0823A] font-semibold mb-[18px] pb-3 border-b border-white/20">Follow</h4>
             <ul className="list-none flex flex-col gap-[11px]">
               <li><a href="#" className="font-sans text-[15px] text-[#F4EBD7]/70 hover:text-[#F0823A] transition-colors">Twitter / X</a></li>
-              <li><a href="#" className="font-sans text-[15px] text-[#F4EBD7]/70 hover:text-[#F0823A] transition-colors">Instagram</a></li>
+              <li><a href="https://www.instagram.com/cjpassaam/" target="_blank" rel="noopener noreferrer" className="font-sans text-[15px] text-[#F4EBD7]/70 hover:text-[#F0823A] transition-colors">Instagram</a></li>
               <li><a href="#" className="font-sans text-[15px] text-[#F4EBD7]/70 hover:text-[#F0823A] transition-colors">YouTube</a></li>
               <li><a href="#" className="font-sans text-[15px] text-[#F4EBD7]/70 hover:text-[#F0823A] transition-colors">Telegram</a></li>
             </ul>

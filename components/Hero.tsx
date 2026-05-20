@@ -17,10 +17,6 @@ export default function Hero() {
         
         {/* Left Content */}
         <div className="flex flex-col items-start justify-center">
-          <div className="border border-[#8B1A1A] rounded-full px-4 py-2 text-[11px] font-mono tracking-[0.22em] uppercase text-[#8B1A1A] mb-8 flex items-center gap-2.5">
-            <span className="w-2 h-2 rounded-full bg-[#8B1A1A] animate-pulse"></span>
-            PARTY LAUNCH · LIVE SINCE YESTERDAY
-          </div>
 
           <div className="relative w-full">
             <motion.h1 
