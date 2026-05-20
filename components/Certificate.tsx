@@ -24,9 +24,12 @@ const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ name, distri
           {/* Subtle Watermark */}
           <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
             <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" className="w-[600px] h-[600px]">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="#1A1108" strokeWidth="3" strokeDasharray="46 1000" transform="rotate(-90 32 32)"></circle>
+              <circle cx="32" cy="32" r="29" fill="none" stroke="#1A1108" strokeWidth="3" strokeDasharray="46 1000" transform="rotate(30 32 32)"></circle>
+              <circle cx="32" cy="32" r="29" fill="none" stroke="#1A1108" strokeWidth="0.8"></circle>
               <ellipse cx="32" cy="36" rx="11" ry="16" fill="#1A1108"></ellipse>
               <ellipse cx="32" cy="25" rx="7" ry="6" fill="#1A1108"></ellipse>
-              <path d="M28 17 Q22 10 18 8 M36 17 Q42 10 46 8" stroke="#1A1108" strokeWidth="1.6" fill="none"></path>
+              <path d="M28 17 Q22 10 18 8 M36 17 Q42 10 46 8" stroke="#1A1108" strokeWidth="1.6" fill="none" strokeLinecap="round"></path>
               <rect x="26" y="23" width="12" height="3.5" rx="1" fill="#1A1108"></rect>
             </svg>
           </div>
@@ -96,6 +99,9 @@ const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ name, distri
             
             <div className="mb-5 drop-shadow-sm opacity-90 flex justify-center">
                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" className="w-[64px] h-[64px]">
+                 <circle cx="32" cy="32" r="29" fill="none" stroke="#8c7355" strokeWidth="3" strokeDasharray="46 1000" transform="rotate(-90 32 32)"></circle>
+                 <circle cx="32" cy="32" r="29" fill="none" stroke="#8c7355" strokeWidth="3" strokeDasharray="46 1000" transform="rotate(30 32 32)"></circle>
+                 <circle cx="32" cy="32" r="29" fill="none" stroke="#8c7355" strokeWidth="0.8"></circle>
                  <ellipse cx="32" cy="36" rx="11" ry="16" fill="#8c7355"></ellipse>
                  <ellipse cx="32" cy="25" rx="7" ry="6" fill="#8c7355"></ellipse>
                  <path d="M28 17 Q22 10 18 8 M36 17 Q42 10 46 8" stroke="#8c7355" strokeWidth="1.6" fill="none" strokeLinecap="round"></path>
@@ -151,6 +157,9 @@ const Certificate = forwardRef<HTMLDivElement, CertificateProps>(({ name, distri
                   <div className="absolute inset-[10px] rounded-full border-[1px] border-[#8A6A24] opacity-70 flex flex-col items-center justify-center p-2 bg-gradient-to-tl from-[#dfc27d] via-[#f9f1cd] to-[#b88c3a]">
                      <div className="mb-2 opacity-90">
                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" className="w-[32px] h-[32px]">
+                         <circle cx="32" cy="32" r="29" fill="none" stroke="#5c4516" strokeWidth="3" strokeDasharray="46 1000" transform="rotate(-90 32 32)"></circle>
+                         <circle cx="32" cy="32" r="29" fill="none" stroke="#5c4516" strokeWidth="3" strokeDasharray="46 1000" transform="rotate(30 32 32)"></circle>
+                         <circle cx="32" cy="32" r="29" fill="none" stroke="#5c4516" strokeWidth="0.8"></circle>
                          <ellipse cx="32" cy="36" rx="11" ry="16" fill="#5c4516"></ellipse>
                          <ellipse cx="32" cy="25" rx="7" ry="6" fill="#5c4516"></ellipse>
                          <path d="M28 17 Q22 10 18 8 M36 17 Q42 10 46 8" stroke="#5c4516" strokeWidth="1.6" fill="none" strokeLinecap="round"></path>

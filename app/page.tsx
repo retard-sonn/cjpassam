@@ -9,9 +9,12 @@ import Footer from '@/components/Footer';
 import CreatorSupport from '@/components/CreatorSupport';
 import Gallery from '@/components/Gallery';
 
+import WelcomePopup from '@/components/WelcomePopup';
+
 export default function Page() {
   return (
     <>
+      <WelcomePopup />
       <TopBar />
       <Navbar />
       <main className="flex-1 overflow-hidden">
