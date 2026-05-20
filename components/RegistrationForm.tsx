@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import * as htmlToImage from "html-to-image";
+import Certificate from "./Certificate";
 
 export default function RegistrationForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -141,60 +142,7 @@ export default function RegistrationForm() {
                 </button>
               </div>
 
-              {/* Hidden Certificate for Generation */}
-              <div className="absolute pointer-events-none opacity-[0.01] z-[-100] left-[-9999px] top-0" aria-hidden="true">
-                <div ref={certificateRef} className="w-[800px] h-[600px] bg-[#F4EBD7] p-10 flex flex-col pt-14 items-center relative border-[14px] border-[#1A1108] bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] shadow-inner overflow-hidden">
-                  
-                  {/* Background Accents */}
-                  <div className="absolute top-0 right-0 w-64 h-64 opacity-10 bg-[radial-gradient(circle,#B84915_2px,transparent_2px)] [background-size:16px_16px] transform rotate-12 pointer-events-none"></div>
-                  <div className="absolute bottom-0 left-0 w-64 h-64 opacity-10 bg-[radial-gradient(circle,#1F5A2E_2px,transparent_2px)] [background-size:16px_16px] pointer-events-none"></div>
-
-                  <div className="absolute left-6 top-6 bottom-6 w-[120px] z-10 opacity-90 border-r-4 border-dashed border-[#1A1108]/20 flex items-center pr-2">
-                     <img src="https://i.ibb.co/N6jdPdfN/gamusa.png" alt="" className="w-full h-full object-cover" crossOrigin="anonymous"/>
-                  </div>
-                  
-                  <div className="pl-32 flex flex-col items-center w-full relative z-20 h-full">
-                    <div className="text-5xl mb-2">🪳</div>
-                    
-                    <h1 className="font-display text-[48px] text-[#1A1108] text-center uppercase tracking-wide mb-1 leading-none">
-                      Official Membership
-                    </h1>
-                    <p className="font-sans text-[20px] text-[#B84915] font-bold tracking-widest uppercase mb-8 leading-none">
-                      যোগ্যতা প্ৰমাণপত্ৰ
-                    </p>
-                    
-                    <p className="font-mono text-[12px] text-[#6A5440] uppercase tracking-[0.3em] mt-2 mb-4 bg-[#1A1108]/5 px-4 py-1 rounded-full border border-[#1A1108]/10">
-                      This lazily certifies that
-                    </p>
-                    
-                    <p className="font-serif italic font-bold text-[56px] text-[#1A1108] text-center capitalize border-b-2 border-[#B84915] inline-block px-12 pb-2 mb-8 min-w-[400px] leading-none">
-                      {formData.name}
-                    </p>
-                    
-                    <p className="font-sans text-[18px] text-[#3A2A1C] text-center max-w-[500px] leading-relaxed mb-6 font-medium">
-                      has officially joined the <strong className="font-bold text-[#1A1108]">Cockroach Janta Party</strong>. 
-                      They are now a validated, chronically online constituent of the proudly resilient swarm from <strong className="text-[#B84915]">{formData.district}</strong>.
-                    </p>
-                    
-                    <p className="font-sans text-[15px] text-[#1F5A2E] text-center font-bold mb-auto">
-                      এই প্ৰমাণপত্ৰৰ জৰিয়তে আপোনাক আনুষ্ঠানিকভাৱে জেদী জাকত অন্তৰ্ভুক্ত কৰা হ’ল।
-                    </p>
-                    
-                    <div className="w-full flex justify-between items-end mt-4 px-8 pb-4">
-                      <div className="text-center">
-                        <div className="border-b-2 border-[#1A1108] w-[200px] mb-2 font-display text-[26px] text-[#1A1108] pb-1 transform -rotate-2" style={{fontFamily: "cursive", fontSize: "32px"}}>A. Dipke</div>
-                        <p className="font-mono text-[9px] text-[#6A5440] tracking-[0.2em] uppercase font-bold">Founder & Convenor</p>
-                      </div>
-                      
-                      <div className="w-[110px] h-[110px] border-[3px] border-[#B84915] rounded-full flex flex-col justify-center items-center p-2 transform -rotate-[15deg] relative bg-[#F4EBD7] shadow-[2px_2px_0_#1A1108]">
-                         <span className="font-display text-[15px] text-[#B84915] text-center uppercase leading-[1.1] mt-2 font-bold tracking-wider">OFFICIAL<br/>MEMBER</span>
-                         <span className="font-mono text-[9px] text-[#1A1108] tracking-[0.1em] mt-1 font-bold">CJP ASSAM</span>
-                         <div className="absolute inset-0 border-[1px] border-dashed border-[#B84915] rounded-full m-1.5 pointer-events-none"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Certificate ref={certificateRef} name={formData.name} district={formData.district} />
 
             </div>
           ) : (
