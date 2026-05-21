@@ -20,7 +20,7 @@ export default function WelcomePopup() {
     sessionStorage.setItem("cjp_welcome_seen", "true");
     
     // Play audio
-    const audioUrl = "https://download851.mediafire.com/6ozzwnmwkfpgclAzj-WDGNz5tWLOmkqv2Py6E2UHR4EQtWuwLtMy9VuOPe0_pUkRs0hLT9B6aLs5cU3RdaI3HEB5n7_HozjwwYZYTyRet-EzVY1h1nKULJXfNJgwDvoJdCT5fYMiCuV2GGsE6PS79SEo4U1HYTt8Jxw_l6fwQcMZFw/368xhnbmtbq5jg2/azadi-divine-gully-boy-political-sukrut-edits-128k_ohmYZEQY.mp3";
+    const audioUrl = "https://pub-96341f2c15ec4f1a856db0d45591d6d5.r2.dev/azadi-divine-gully-boy-political-sukrut-edits-128k_ohmYZEQY.mp3";
     
     if (!audioRef.current) {
         audioRef.current = new Audio(audioUrl);
